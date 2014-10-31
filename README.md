@@ -20,8 +20,9 @@ Run
 
 It will build and execute the program with provided map.xml and scenario.txt. You can pass your own file names to the script to test different maps and scenarios.
 Below is the output of the provided files:
+`
 Room Id              Room Name                 Object Collected
-\-----------------------------------------------------------------
+-----------------------------------------------------------------
 scullery             Scullery                       None           
 secret-passage-west  Secret Passage (West)          None           
 library              Library                        Book           
@@ -46,5 +47,5 @@ secret-passage-east  Secret Passage (East)          None
 huge-cavern          Huge Cavern                    None           
 narrow-crawl         Narrow Crawl                   None           
 underground-lake     Underground Lake               Lamp           
-
+`
 
