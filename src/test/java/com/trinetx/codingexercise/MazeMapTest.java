@@ -21,7 +21,7 @@ public class MazeMapTest {
 		
 		mazeMap.walkMaze("1", visitor);
 		
-		assertEquals(1, visitor.getActionLog(false).size());
+		assertEquals(1, visitor.getActionLog().size());
 	}
 	
 	@Test
@@ -35,7 +35,7 @@ public class MazeMapTest {
 		mazeMap.walkMaze("1", visitor);
 		
 		assertFalse(visitor.isDone());
-		assertEquals(9, visitor.getActionLog(false).size());
+		assertEquals(9, visitor.getActionLog().size());
 	}
 	
 	@Test
@@ -54,7 +54,7 @@ public class MazeMapTest {
 		mazeMap.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(3, visitor.getActionLog(true).size());
+		assertEquals(1, visitor.getActionLog().size());
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class MazeMapTest {
 		mazeSolver.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(6, visitor.getActionLog(false).size());
+		assertEquals(6, visitor.getActionLog().size());
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class MazeMapTest {
 		mazeMap.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(8, visitor.getActionLog(false).size());
+		assertEquals(8, visitor.getActionLog().size());
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class MazeMapTest {
 		mazeMap.walkMaze("1", visitor);
 		
 		assertFalse(visitor.isDone());
-		assertEquals(11, visitor.getActionLog(false).size());
+		assertEquals(11, visitor.getActionLog().size());
 	}
 
 	private Map<String, MazeRoom> buildMapWithCircle(Map<String, Set<String>> objects) {

@@ -49,7 +49,9 @@ public class MazeSolver
     	
     	RoomVisitor visitor = new RoomVisitor(scenario.getObjects());
     	map.walkMaze(scenario.getStartRoomId(), visitor);
-    	List<String> actionLog = visitor.getActionLog(true);
+    	
+    	System.out.println(visitor.getActionLogHeader());
+    	List<String> actionLog = visitor.getActionLog();
     	
     	for (String action : actionLog) {
     		System.out.println(action);

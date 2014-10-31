@@ -65,15 +65,18 @@ public class RoomVisitor implements IRoomVisitor {
 		return itemsToCollect == null || itemsToCollect.isEmpty();
 	}
 	
-	public List<String> getActionLog(boolean addHeader) {
-		if (addHeader) {
-			StringBuilder divider = new StringBuilder(65);
-			for (int i = 0; i < 65; i++) {
-				divider.append('-');
-			}
-			actionLog.add(0, divider.toString());
-			actionLog.add(0, String.format("%-20s %-25s %-15s", "Room Id", "Room Name", "Object Collected"));
+	public String getActionLogHeader() {
+		StringBuilder header = new StringBuilder();
+		header.append(String.format("%-20s %-25s %-15s", "Room Id", "Room Name", "Object Collected"));
+		header.append('\n');
+		for (int i = 0; i < 65; i++) {
+			header.append('-');
 		}
+		
+		return header.toString();
+	}
+	
+	public List<String> getActionLog() {
 		return actionLog;
 	}
 	
