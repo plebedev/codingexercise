@@ -11,17 +11,17 @@ import java.util.Set;
 
 import org.junit.Test;
 
-public class MazeSolverTest {
+public class MazeMapTest {
 
 	@Test
 	public void testWalkSimpleCaseNothingToCollect() {
 		Map<String, MazeRoom> map = buildSimpleMap(null);
 		RoomVisitor visitor = new RoomVisitor(null);
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeMap = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeMap.walkMaze("1", visitor);
 		
-		assertEquals(1, visitor.getActionLog().size());
+		assertEquals(1, visitor.getActionLog(false).size());
 	}
 	
 	@Test
@@ -30,12 +30,12 @@ public class MazeSolverTest {
 		Set<String> items = new HashSet<String>();
 		items.add("item");
 		RoomVisitor visitor = new RoomVisitor(items);
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeMap = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeMap.walkMaze("1", visitor);
 		
 		assertFalse(visitor.isDone());
-		assertEquals(9, visitor.getActionLog().size());
+		assertEquals(9, visitor.getActionLog(false).size());
 	}
 	
 	@Test
@@ -49,12 +49,12 @@ public class MazeSolverTest {
 		Map<String, MazeRoom> map = buildSimpleMap(objects);
 		
 		RoomVisitor visitor = new RoomVisitor(items);
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeMap = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeMap.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(1, visitor.getActionLog().size());
+		assertEquals(3, visitor.getActionLog(true).size());
 	}
 	
 	@Test
@@ -68,12 +68,12 @@ public class MazeSolverTest {
 		Map<String, MazeRoom> map = buildSimpleMap(objects);
 		
 		RoomVisitor visitor = new RoomVisitor(items);
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeSolver = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeSolver.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(6, visitor.getActionLog().size());
+		assertEquals(6, visitor.getActionLog(false).size());
 	}
 	
 	@Test
@@ -94,12 +94,12 @@ public class MazeSolverTest {
 		Map<String, MazeRoom> map = buildMapWithCircle(objects);
 		
 		
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeMap = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeMap.walkMaze("1", visitor);
 		
 		assertTrue(visitor.isDone());
-		assertEquals(8, visitor.getActionLog().size());
+		assertEquals(8, visitor.getActionLog(false).size());
 	}
 	
 	@Test
@@ -108,12 +108,12 @@ public class MazeSolverTest {
 		Set<String> items = new HashSet<String>();
 		items.add("item");
 		RoomVisitor visitor = new RoomVisitor(items);
-		MazeSolver mazeSolver = new MazeSolver(map, visitor);
+		MazeMap mazeMap = new MazeMap(map);
 		
-		mazeSolver.walkMaze("1");
+		mazeMap.walkMaze("1", visitor);
 		
 		assertFalse(visitor.isDone());
-		assertEquals(11, visitor.getActionLog().size());
+		assertEquals(11, visitor.getActionLog(false).size());
 	}
 
 	private Map<String, MazeRoom> buildMapWithCircle(Map<String, Set<String>> objects) {
@@ -122,11 +122,11 @@ public class MazeSolverTest {
 		MazeRoom room2 = ret.get("2");
 		MazeRoom room3 = ret.get("3");
 		
-		room2.setToRoom(MazeSolver.East, room6);
-		room3.setToRoom(MazeSolver.North, room6);
+		room2.setToRoom(MazeMap.East, "6");
+		room3.setToRoom(MazeMap.North, "6");
 		
-		room6.setToRoom(MazeSolver.West, room2);
-		room6.setToRoom(MazeSolver.South, room3);
+		room6.setToRoom(MazeMap.West, "2");
+		room6.setToRoom(MazeMap.South, "3");
 		
 		ret.put(room6.getId(), room6);
 		
@@ -140,15 +140,15 @@ public class MazeSolverTest {
 		MazeRoom room4 = new MazeRoom("4", "Family", getObjects(objects, "4"));
 		MazeRoom room5 = new MazeRoom("5", "Living", getObjects(objects, "5"));
 		
-		room1.setToRoom(MazeSolver.North, room2);
-		room1.setToRoom(MazeSolver.East, room3);
-		room1.setToRoom(MazeSolver.South, room4);
-		room1.setToRoom(MazeSolver.West, room5);
+		room1.setToRoom(MazeMap.North, "2");
+		room1.setToRoom(MazeMap.East, "3");
+		room1.setToRoom(MazeMap.South, "4");
+		room1.setToRoom(MazeMap.West, "5");
 		
-		room2.setToRoom(MazeSolver.South, room1);
-		room3.setToRoom(MazeSolver.West, room1);
-		room4.setToRoom(MazeSolver.North, room1);
-		room5.setToRoom(MazeSolver.East, room1);
+		room2.setToRoom(MazeMap.South, "1");
+		room3.setToRoom(MazeMap.West,  "1");
+		room4.setToRoom(MazeMap.North, "1");
+		room5.setToRoom(MazeMap.East,  "1");
 		
 		Map<String, MazeRoom> ret = new HashMap<String, MazeRoom>();
 		

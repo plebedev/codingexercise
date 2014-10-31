@@ -7,7 +7,7 @@ public class MazeRoom implements IMazeRoom {
 	private String id;
 	private String name;
 	private Set<String> objects;
-	private MazeRoom toRooms[] = new MazeRoom[4];
+	private String toRoomIds[] = new String[4];
 	private RoomState state = RoomState.none;
 	
 	public MazeRoom(String id, String name, Set<String> objects) {
@@ -47,18 +47,18 @@ public class MazeRoom implements IMazeRoom {
 		this.state = state;	
 	}
 	
-	public void setToRoom(int i, MazeRoom room) {
+	public void setToRoom(int i, String roomId) {
 		if (i < 0 || i > 3) {
 			throw new IllegalArgumentException("Room direction is invalid. It should be between 0 and 3 inclusive");
 		}
-		toRooms[i] = room;
+		toRoomIds[i] = roomId;
 	}
 	
-	public MazeRoom getToRoom(int i) {
+	public String getToRoom(int i) {
 		if (i < 0 || i > 3) {
 			throw new IllegalArgumentException("Room direction is invalid. It should be between 0 and 3 inclusive");
 		}
-		return toRooms[i];
+		return toRoomIds[i];
 	}
 	
 	public RoomState getState() {

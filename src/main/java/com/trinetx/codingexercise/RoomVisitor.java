@@ -16,8 +16,7 @@ public class RoomVisitor implements IRoomVisitor {
 	@Override
 	public void startVisit(IMazeRoom room) {
 		room.setState(RoomState.visiting);
-		StringBuilder log = createLog(room);
-		log.append('\t');
+		StringBuilder items = new StringBuilder();
 		boolean anythingCollected = false;
 		if (itemsToCollect != null) {
 			Set<String> collectedItems = new HashSet<String>();
@@ -26,9 +25,13 @@ public class RoomVisitor implements IRoomVisitor {
 				String item = itemsIter.next();
 				if (room.hasItem(item)) {
 					if (room.collectItem(item)) {
-						anythingCollected = true;
+						if (anythingCollected) {
+							items.append(',');
+						} else {
+							anythingCollected = true;
+						}
 						collectedItems.add(item);
-						log.append(item);
+						items.append(item);
 					}
 				}
 			}
@@ -36,10 +39,10 @@ public class RoomVisitor implements IRoomVisitor {
 		}
 		
 		if (!anythingCollected) {
-			log.append("None");
+			items.append("None");
 		}
 		
-		actionLog.add(log.toString());
+		actionLog.add(createLog(room, items.toString()));
 	}
 
 	@Override
@@ -50,14 +53,11 @@ public class RoomVisitor implements IRoomVisitor {
 	
 	@Override
 	public void backToRoom(IMazeRoom room) {
-		actionLog.add(createLog(room).toString());
+		actionLog.add(createLog(room, "None"));
 	}
 	
-	private StringBuilder createLog(IMazeRoom room) {
-		StringBuilder log = new StringBuilder();
-		log.append(room.getId()).append("\t").append(room.getName());
-		
-		return log;
+	private String createLog(IMazeRoom room, String collectedItems) {
+		return String.format("%-20s %-30s %-15s", room.getId(), room.getName(), collectedItems);
 	}
 
 	@Override
@@ -65,7 +65,15 @@ public class RoomVisitor implements IRoomVisitor {
 		return itemsToCollect == null || itemsToCollect.isEmpty();
 	}
 	
-	public List<String> getActionLog() {
+	public List<String> getActionLog(boolean addHeader) {
+		if (addHeader) {
+			StringBuilder divider = new StringBuilder(65);
+			for (int i = 0; i < 65; i++) {
+				divider.append('-');
+			}
+			actionLog.add(0, divider.toString());
+			actionLog.add(0, String.format("%-20s %-25s %-15s", "Room Id", "Room Name", "Object Collected"));
+		}
 		return actionLog;
 	}
 	
